@@ -56,12 +56,11 @@ class Datasource(CommonCrawlDatasource):
         hiringOrganization_description = str(
             soup.select_one("#about-organisation") or ""
         )
-        header = soup.select_one("h1")
-        if not header:
+        if header := soup.select_one("h1"):
+            title = header.get_text().strip()
+        else:
             logging.warning("Missing header: %s", uri)
             title = None
-        else:
-            title = header.get_text().strip()
         return [
             {
                 "title": title,

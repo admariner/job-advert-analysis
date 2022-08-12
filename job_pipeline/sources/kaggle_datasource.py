@@ -22,7 +22,7 @@ class KaggleDatasource(AbstractDatasource):
             self.api.dataset_download_file(self.dataset, source, path=tmpdir)
 
             # Unzip if zipped
-            zip_path = Path(tmpdir) / (source + ".zip")
+            zip_path = Path(tmpdir) / f"{source}.zip"
             if zip_path.exists():
                 logging.debug(f"Unzipping {zip_path}")
                 with ZipFile(zip_path, "r") as z:

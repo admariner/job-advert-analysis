@@ -20,8 +20,7 @@ class Datasource(KaggleDatasource):
 
     def extract_one(self, path: Path) -> Generator[Dict[Any, Any], None, None]:
         with open(path, "r", encoding="latin-1") as f:
-            for row in csv.DictReader(f):
-                yield row
+            yield from csv.DictReader(f)
 
     def normalise(self, *args, **data) -> Dict[str, Any]:
         parts = [x for x in [data.get("city"), data.get("state"), data.get("geo")] if x]

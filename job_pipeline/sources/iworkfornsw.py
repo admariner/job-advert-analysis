@@ -57,12 +57,11 @@ class Datasource(CommonCrawlDatasource):
             value = info.select_one("td")
             if key and value:
                 data[key.get_text().strip()] = value.get_text().strip()
-        title_tag = soup.select_one(".job-detail-title")
-        if not title_tag:
+        if title_tag := soup.select_one(".job-detail-title"):
+            title = title_tag.get_text().strip()
+        else:
             logging.warning("Missing title tag in %s, %s", uri, view_date)
             title = None
-        else:
-            title = title_tag.get_text().strip()
         description = str(soup.select_one(".job-detail-des") or "")
         return [
             {

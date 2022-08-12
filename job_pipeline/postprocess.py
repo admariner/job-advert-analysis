@@ -27,7 +27,7 @@ AU_PERIOD_SALARY_RANGE: Dict[Period, SalaryRange] = {
 }
 
 # Exclude WEEK as is quite rare
-AU_INFER_PERIODS = set([Period.YEAR, Period.DAY, Period.HOUR])
+AU_INFER_PERIODS = {Period.YEAR, Period.DAY, Period.HOUR}
 
 
 def fixup_zero_salary(df):

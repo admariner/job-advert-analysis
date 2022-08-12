@@ -27,13 +27,13 @@ class Datasource(CommonCrawlDatasource):
         obj = parse_js_obj(text, JS_STR_APP)
         if obj is None:
             return []
-        else:
-            data = obj["vip"]["item"]
+        data = obj["vip"]["item"]
             # adType: OFFER is job ad, WANTED is ask for work
-            if data["isJobsCategory"] and data["adType"] == "OFFER":
-                return [{"data": data, "uri": uri, "view_date": view_date}]
-            else:
-                return []
+        return (
+            [{"data": data, "uri": uri, "view_date": view_date}]
+            if data["isJobsCategory"] and data["adType"] == "OFFER"
+            else []
+        )
 
     def normalise(self, data, uri, view_date):
         metadata = {row["value"]: row["name"] for row in data["mainAttributes"]}
