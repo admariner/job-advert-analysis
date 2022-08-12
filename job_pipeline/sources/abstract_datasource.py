@@ -17,14 +17,12 @@ def ensure_extension(path: Path, extension: Optional[str]) -> Path:
     if extension is None:
         return path
     assert extension.startswith(".")
-    suffixes = path.suffixes
-    if suffixes:
-        if "".join(suffixes) == extension:
-            return path
-        else:
-            raise ValueError(f"Unexpected extension: expected {extension}, got {path}")
-    else:
+    if not (suffixes := path.suffixes):
         return Path(str(path) + extension)
+    if "".join(suffixes) == extension:
+        return path
+    else:
+        raise ValueError(f"Unexpected extension: expected {extension}, got {path}")
 
 
 def get_base_stem(path: Path) -> str:

@@ -44,7 +44,7 @@ def get_quad_label(line: str) -> str:
 def truncate_message(msg, max_char=255):
     msg = str(msg)
     if len(msg) > max_char:
-        msg = msg[: max_char - 3] + "..."
+        msg = f"{msg[:max_char - 3]}..."
     return msg
 
 

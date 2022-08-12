@@ -42,10 +42,7 @@ def infer_salary_hours(
         for period in allowed_periods
         if valid_salary_period(salary, period, period_salary_range)
     ]
-    if len(possible_periods) == 1:
-        return possible_periods[0]
-    # Ambiguous or no match
-    return None
+    return possible_periods[0] if len(possible_periods) == 1 else None
 
 
 def salary_range_frac(min_salary: float, max_salary: float) -> float:
@@ -69,9 +66,7 @@ def valid_salary_range(
     """
     if max_salary < min_salary:
         return False
-    if salary_range_frac(min_salary, max_salary) > max_salary_range_frac:
-        return False
-    return True
+    return salary_range_frac(min_salary, max_salary) <= max_salary_range_frac
 
 
 def salary_unit(text: str) -> Optional[Period]:
@@ -124,10 +119,7 @@ def is_year(number: float) -> bool:
 
 
 def fix_salary_scale(low: float, high: float) -> Tuple[float, float]:
-    if low * 1000 < high < low * 2000:
-        return low * 1000, high
-    else:
-        return low, high
+    return (low * 1000, high) if low * 1000 < high < low * 2000 else (low, high)
 
 
 def extract_salary(text: str) -> Tuple[Optional[float], Optional[float]]:
@@ -167,7 +159,7 @@ def extract_salary(text: str) -> Tuple[Optional[float], Optional[float]]:
             if not is_year(ans):
                 return ans, None
         except ValueError as e:
-            logging.warning("%s when parsing %s" % (e, match))
+            logging.warning(f"{e} when parsing {match}")
     return (None, None)
 
 

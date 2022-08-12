@@ -39,9 +39,7 @@ def fetch_all_cc(
             disable=disable_progress,
         ):
             archive_iterator = ArchiveIterator(BytesIO(content))
-            # Assume exactly one record
-            warc = next(archive_iterator)
-            yield warc
+            yield next(archive_iterator)
 
 
 def read_warc_responses(
@@ -107,5 +105,4 @@ class CommonCrawlDatasource(AbstractDatasource):
             assert uri is not None
             assert view_date is not None
 
-            for result in self.extract(html, uri, view_date):
-                yield result
+            yield from self.extract(html, uri, view_date)

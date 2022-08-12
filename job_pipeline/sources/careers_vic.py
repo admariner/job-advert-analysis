@@ -60,12 +60,11 @@ class Datasource(CommonCrawlDatasource):
             value = "".join(str(s).strip() for s in key.next_siblings)
             data[key_text] = value
 
-            title_tag = soup.select_one(".txt-title")
-            if not title_tag:
+            if title_tag := soup.select_one(".txt-title"):
+                title = str(title_tag.get_text())
+            else:
                 logging.warning("Missing title tag in %s", uri)
                 title = None
-            else:
-                title = str(title_tag.get_text())
             description = str(soup.select_one(".txt-pre-line") or "")
         return [
             {

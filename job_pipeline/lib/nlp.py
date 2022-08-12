@@ -73,7 +73,7 @@ def subseq(seq: List[T], n: int = 1) -> List[Tuple[T, ...]]:
 
     Example: subseq([1,2,3,4], n=2) == [(1,2), (2,3), (3,4)]
     """
-    return [tuple(seq[i : i + n]) for i in range(0, len(seq) + 1 - n)]
+    return [tuple(seq[i : i + n]) for i in range(len(seq) + 1 - n)]
 
 
 def shingle(seq: List[str], n: int = 1) -> List[str]:

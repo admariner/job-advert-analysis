@@ -17,7 +17,7 @@ class AtomicFileWriter:
         self.filename = filename
         self.mode = mode
         if temp_filename is None:
-            self.temp_filename = str(filename) + ".tmp"
+            self.temp_filename = f"{str(filename)}.tmp"
         else:
             self.temp_filename = str(temp_filename)
 

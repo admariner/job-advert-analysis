@@ -242,7 +242,7 @@ class TestSalaryValidation(unittest.TestCase):
             infer_salary_hours(
                 20,
                 self.period_salary_range,
-                allowed_periods=set([Period.DAY, Period.YEAR]),
+                allowed_periods={Period.DAY, Period.YEAR},
             ),
             Period.DAY,
         )

@@ -18,22 +18,23 @@ def extract_braces(text: str) -> str:
         if escape:
             escape = False
             continue
-        if char == '"':
+        if char == "\\":
+            escape = True
+        elif char == '"':
             if start is None:
                 raise ParseError("Unexpected quote")
             inquote = not inquote
-        if char == "\\":
-            escape = True
-        if (not inquote) and char == "{":
-            if start is None:
-                start = idx
-            depth += 1
-        if (not inquote) and char == "}":
-            if start is None:
-                raise ParseError("Unexpected close brace")
-            depth -= 1
-            if depth <= 0:
-                break
+        if not inquote:
+            if char == "{":
+                if start is None:
+                    start = idx
+                depth += 1
+            elif char == "}":
+                if start is None:
+                    raise ParseError("Unexpected close brace")
+                depth -= 1
+                if depth <= 0:
+                    break
     else:
         raise ParseError("Unexpected end of stream")
     return text[start : idx + 1]
