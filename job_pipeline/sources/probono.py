@@ -78,7 +78,7 @@ class Datasource(CommonCrawlDatasource):
     ):
         salary_text = metadata.get("Salary :")
         salary_data = get_salary_data(salary_text)
-        location_raw = metadata["Location :"]
+        location_raw = metadata.get("Location :", "")
         return {
             "title": title,
             "description": html2plain(description),
