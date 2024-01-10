@@ -1,3 +1,5 @@
+import re
+
 from job_pipeline.lib.extractlib import parse_js_obj
 from job_pipeline.lib.normalise import (
     WOF_AUS,
@@ -13,6 +15,15 @@ from job_pipeline.sources.commoncrawl_datasource import CommonCrawlDatasource
 AU_GEOCODER = Geocoder(lang="en", filter_country_ids=(WOF_AUS, WOF_NZ))
 JS_STR_REDUX = "REDUX_DATA ="
 
+DATE_OBJ_RE = re.compile(r',"date":new Date\(("[0-9T:Z.+-]+")\),')
+
+
+def cleanup_date_objects(text: str) -> str:
+    """Replace new Date objects with text
+
+    demjson can not handle these"""
+    return DATE_OBJ_RE.sub(r',"date":\1,', text)
+
 
 class Datasource(CommonCrawlDatasource):
     name = module_name(__name__)
@@ -21,6 +32,7 @@ class Datasource(CommonCrawlDatasource):
 
     def extract(self, html: bytes, uri, view_date):
         text = html.decode("utf-8")
+        text = cleanup_date_objects(text)
         obj = parse_js_obj(text, JS_STR_REDUX)
         if obj is None:
             return []
