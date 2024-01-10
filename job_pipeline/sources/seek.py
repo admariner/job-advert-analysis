@@ -58,7 +58,7 @@ class Datasource(CommonCrawlDatasource):
         )
         return {
             "title": data["title"],
-            "description": html2plain(data["mobileAdTemplate"]),
+            "description": html2plain(data.get("mobileAdTemplate", "jobAdDetails")),
             "uri": uri,
             "view_date": datetime_from_iso_utc(view_date),
             "org": data["advertiser"]["description"],
