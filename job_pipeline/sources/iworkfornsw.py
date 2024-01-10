@@ -76,13 +76,13 @@ class Datasource(CommonCrawlDatasource):
 
     def normalise(self, title, description, metadata, uri, view_date):
         salary = get_salary_data(metadata.get("Total Remuneration Package:") or "")
-        location_raw = metadata["Job Location:"]
+        location_raw = metadata.get("Job Location:", "")
         return {
             "title": title,
             "description": html2plain(description),
             "uri": uri,
             "view_date": datetime_from_iso_utc(view_date),
-            "org": metadata["Organisation/Entity:"],
+            "org": metadata.get("Organisation/Entity:", ""),
             **salary,
             "location_raw": location_raw,
             **AU_GEOCODER.geocode(fixup_iworkfornsw_loc(location_raw)),
