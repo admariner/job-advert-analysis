@@ -2,7 +2,7 @@ import json
 import logging
 from typing import Any, Dict, Optional
 
-import demjson
+import demjson3 as demjson
 
 
 class ParseError(Exception):

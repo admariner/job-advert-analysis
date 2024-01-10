@@ -12,7 +12,7 @@ typer
 html2text
 
 warcio
-demjson
+demjson3
 extruct
 rdflib < 5.0.0
 
